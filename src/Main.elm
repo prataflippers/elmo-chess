@@ -4,6 +4,7 @@ import Browser
 import Models.ChessBoard exposing (..)
 import Updaters.Main exposing (..)
 import Views.Main exposing (..)
+import Utils exposing (..)
 
 
 ---- PROGRAM ----
