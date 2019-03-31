@@ -7,13 +7,13 @@ import Models.Main exposing (..)
 
 viewHeader : Model -> Html Msg
 viewHeader model =
-    div [] [ text "This is a header!" ]
+    div [] [ text "Components are functions!" ]
 
 view : Model -> Html Msg
 view model =
     div []
         [ img [ src "/elmo_chess.png" ] []
-        , h1 [] [ text "Your Elm App is working!" ]
+        , h1 [] [ text "Elmo still doesn't know wtf he's doing yet!" ]
         , viewHeader model
         ]
 
