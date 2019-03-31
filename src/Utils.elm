@@ -15,9 +15,6 @@ reverse = List.reverse
 -- Dicts
 get = Dict.get
 
--- Debugging
-log = Debug.log
-
 -- Custom
 
 zip : List a -> List b -> List ( a, b )
