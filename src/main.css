@@ -14,6 +14,8 @@ body {
   margin: 0;
   text-align: center;
   color: #293c4b;
+  display: flex;
+  justify-content: center;
 }
 
 h1 {
@@ -42,6 +44,11 @@ img {
   justify-content: center;
 }
 
+
+.tile.highlighted {
+  background: greenyellow !important;
+}
+
 #board > div:nth-child(16n+1), #board > div:nth-child(16n+3), 
 #board > div:nth-child(16n+5), #board > div:nth-child(16n+7), 
 #board > div:nth-child(16n+10), #board > div:nth-child(16n+12), 
@@ -59,7 +66,6 @@ img {
   background-size: 100%; */
   background: white;
 }
-
 
 .pieceImage {
   width:95%;

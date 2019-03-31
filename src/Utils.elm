@@ -11,12 +11,22 @@ filter = List.filter
 foldr = List.foldr
 member = List.member
 reverse = List.reverse
+head = List.head
+-- Removes first occurrence of given element in list
+remove: a -> List a -> List a
+remove a xs = 
+    case xs of
+        (first::tail) -> if first == a then tail else first :: remove a tail
+        [] -> []
 
 -- Dicts
+keys = Dict.keys
 get = Dict.get
+insert = Dict.insert
+fromList = Dict.fromList
 
 -- Debugging
-log = Debug.log
+-- log = Debug.log
 
 -- Custom
 

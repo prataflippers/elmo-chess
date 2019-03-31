@@ -1,9 +1,10 @@
 module Views.Main exposing (chessBoardView, loopComponent, view, viewTile)
 
 import Html exposing (Html, button, div, h1, img, span, text)
-import Html.Attributes exposing (class, id, src)
+import Html.Attributes exposing (class, id, src, classList)
 import Html.Events exposing (onClick)
 import Models.ChessBoard exposing (..)
+import Updaters.Main exposing (..)
 import Utils exposing (..)
 
 
@@ -11,16 +12,15 @@ pieceImageAddress : Piece -> String
 pieceImageAddress piece =
     "/pieces/" ++ pieceToString piece ++ ".png"
 
-viewTile : ChessBoard -> Tile -> Html Msg
-viewTile board tile =
+viewTile : State -> Tile -> Html Msg
+viewTile state tile =
     let
         piece =
-            get tile board
-
+            get tile state.board
         basicTile =
             div
-                [ class "tile"
-                , onClick Click
+                [ classList [("tile", True), ("highlighted", member tile state.highlightedTiles)]
+                , onClick (x tile, y tile)
                 ]
     in
     case piece of
@@ -47,16 +47,16 @@ loopComponent component n =
         []
 
 
-view : ChessBoard -> Html Msg
-view model =
+view : State -> Html Msg
+view state =
     div []
         [ img [ src "/elmo_chess.png" ] []
         , h1 [] [ text "Elmo is dead BIATCH!" ]
-        , chessBoardView model
+        , chessBoardView state
         ]
 
 
-chessBoardView : ChessBoard -> Html Msg
-chessBoardView board =
+chessBoardView : State -> Html Msg
+chessBoardView state =
     div [ id "board" ]
-        (map (viewTile board) (map gridIndexToTile (range 1 64)))
+        (map (viewTile state) (map gridIndexToTile (range 1 64)))
