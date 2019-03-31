@@ -1,27 +1,25 @@
-module Models.ChessBoard exposing (ChessBoard, Color(..), Msg(..), PieceType(..), init)
+module Models.ChessBoard exposing (..)
 
 import Dict exposing (Dict, keys)
-import List exposing (foldr, map, range, reverse, filter, member)
 import Tuple exposing (first, pair, second)
+import Debug exposing (log)
+import Models.Data exposing (..)
+import Utils exposing (..)
 
+type Msg = Click | AntiClick
 
-type PieceType
-    = Rook
-    | Knight
-    | Bishop
-    | King
-    | Queen
-    | Pawn
+type alias Tile =
+    Position
 
-
-zip : List a -> List b -> List ( a, b )
-zip =
-    List.map2 Tuple.pair
-
-
-flatten : List (List a) -> List a
-flatten list =
-    foldr (++) [] list
+pieceTypeToString: PieceType -> String
+pieceTypeToString p = 
+    case p of
+        Rook -> "Rook"
+        Knight -> "Knight"
+        Bishop -> "Bishop"
+        King -> "King"
+        Queen -> "Queen"
+        Pawn -> "Pawn"
 
 
 isValidPos : Position -> Bool
@@ -42,29 +40,26 @@ y : Position -> Int
 y =
     second
 
-
-type Color
-    = White
-    | Black
-
+colorToString: Color -> String
+colorToString c = 
+    case c of
+        White -> "White"
+        Black -> "Black"
 
 type alias Piece =
     { color : Color
     , pieceType : PieceType
     }
 
+pieceToString: Piece -> String
+pieceToString p = (colorToString p.color) ++ (pieceTypeToString p.pieceType)
 
 type alias ChessBoard =
     Dict Position Piece
 
 
-type Msg
-    = NoOp
-
-
 init : ( ChessBoard, Cmd Msg )
-init =
-    ( Dict.fromList [], Cmd.none )
+init = ( Dict.fromList initialBoard, Cmd.none )
 
 
 type Move
@@ -80,40 +75,53 @@ basicValidMoves board position move =
     case move of
         Diagonal ->
             let
-                left = reverse (range 0 (x position - 1))
-                right = reverse (range (x position + 1) 8)
-                up = reverse (range (y position + 1) 8)
-                down = reverse (range 0 (y position - 1))
+                left =
+                    reverse (range 0 (x position - 1))
+
+                right =
+                    reverse (range (x position + 1) 8)
+
+                up =
+                    reverse (range (y position + 1) 8)
+
+                down =
+                    reverse (range 0 (y position - 1))
             in
             flatten (map (discardRest board) [ zip left up, zip left down, zip right up, zip right up ])
 
         RetardJump ->
             let
-                posX = x position
-                posY = y position
-                addTwoToX =  [(posX + 2, posY + 1), (posX + 2, posY - 1), (posX - 2, posY + 1), (posX - 2, posY + 1)]
-                addTwoToY =  [(posX + 1, posY + 2), (posX + 1, posY - 2), (posX - 1, posY + 2), (posX - 1, posY + 2)]
+                addTwoToX =
+                    [ ( x position + 2, y position + 1 ), ( x position + 2, y position - 1 ), ( x position - 2, y position + 1 ), ( x position - 2, y position + 1 ) ]
+
+                addTwoToY =
+                    [ ( x position + 1, y position + 2 ), ( x position + 1, y position - 2 ), ( x position - 1, y position + 2 ), ( x position - 1, y position + 2 ) ]
             in
-                addTwoToX ++ addTwoToY
+            addTwoToX ++ addTwoToY
+
         File ->
-            [(x position + 1, y position), (x position - 1, y position)]
-        
+            [ ( x position + 1, y position ), ( x position - 1, y position ) ]
+
         Rank ->
-            [(x position, y position + 1), (x position, y position - 1)]
+            [ ( x position, y position + 1 ), ( x position, y position - 1 ) ]
 
         Single moveType ->
             filter (oneAway position) (basicValidMoves board position moveType)
 
 
-oneAway: Position -> Position -> Bool
-oneAway posA posB = member (x posA) [(x posB) + 1, (x posB) - 1] && member (y posA) [y posB + 1, y posB - 1]
+oneAway : Position -> Position -> Bool
+oneAway posA posB =
+    member (x posA) [ x posB + 1, x posB - 1 ] && member (y posA) [ y posB + 1, y posB - 1 ]
+
 
 advancedValidMoves : ChessBoard -> Position -> Move -> List Position
-advancedValidMoves board pos move = 
-    let 
-        basics = basicValidMoves board pos move
+advancedValidMoves board pos move =
+    let
+        basics =
+            basicValidMoves board pos move
     in
-        filter isValidPos basics
+    filter isValidPos basics
+
 
 discardRest : ChessBoard -> List Position -> List Position
 discardRest board lst =
@@ -121,8 +129,10 @@ discardRest board lst =
         head :: tail ->
             if member head (keys board) then
                 head :: discardRest board tail
+
             else
-                [head]
+                [ head ]
+
         [] ->
             []
 
