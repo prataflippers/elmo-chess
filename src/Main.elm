@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Browser
-import Models.Main exposing (..)
+import Models.ChessBoard exposing (..)
 import Updaters.Main exposing (..)
 import Views.Main exposing (..)
 
@@ -9,7 +9,7 @@ import Views.Main exposing (..)
 ---- PROGRAM ----
 
 
-main : Program () Model Msg
+main : Program () ChessBoard Msg
 main =
     Browser.element
         { view = view

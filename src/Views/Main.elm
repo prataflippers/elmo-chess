@@ -2,14 +2,14 @@ module Views.Main exposing (..)
 
 import Html exposing (Html, text, div, h1, img)
 import Html.Attributes exposing (src)
-import Models.Main exposing (..)
+import Models.ChessBoard exposing (..)
 
 
-viewHeader : Model -> Html Msg
+viewHeader : ChessBoard -> Html Msg
 viewHeader model =
     div [] [ text "Components are functions!" ]
 
-view : Model -> Html Msg
+view : ChessBoard -> Html Msg
 view model =
     div []
         [ img [ src "/elmo_chess.png" ] []
