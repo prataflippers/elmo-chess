@@ -52,7 +52,7 @@ img {
   // background-image:url("/tiles/black_leather_tile.jpg");
   // background-size: 100%;
   background: grey;
-  &.highlighted { background-color: #16835f; background-blend-mode: screen; }
+  &.highlighted { background: #16835f; }
 }
 
 #board > div:nth-child(16n+2), #board > div:nth-child(16n+4), 
@@ -62,7 +62,7 @@ img {
   // background-image:url("/tiles/light_wood_tile.jpg");
   // background-size: 100%;
   background: white;
-  &.highlighted { background-color: #20b181; background-blend-mode: screen; }
+  &.highlighted { background: #20b181; }
 }
 
 .pieceImage {
