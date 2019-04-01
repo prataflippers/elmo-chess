@@ -55,8 +55,15 @@ view state =
         , chessBoardView state
         ]
 
+-- This creates a list like [57,58,59,60,61,62,63,64,49,50,51,52,53,54,55,56,41,42,43,44...]
+-- This is to correct the orientation of the board where White is at the bottom and the position
+-- (0, 0) is at the bottom left.
+boardRows: List Int
+boardRows = flatten (reverse (map (\x -> (range (1 + x * 8) ((1 + x * 8) + 7))) (range 0 7)))
 
 chessBoardView : State -> Html Msg
 chessBoardView state =
     div [ id "board" ]
-        (map (viewTile state) (map gridIndexToTile (range 1 64)))
+        (map (viewTile state) (map gridIndexToTile boardRows))
+
+
