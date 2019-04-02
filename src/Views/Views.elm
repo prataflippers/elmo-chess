@@ -19,7 +19,9 @@ viewTile state tile =
             get tile state.board
         basicTile =
             div
-                [ classList [("tile", True), ("highlighted", member tile state.highlightedTiles)]
+                [ classList [("tile", True)
+                , ("highlighted", member tile state.highlightedTiles)
+                , ("attackable", member tile state.attackTiles)]
                 , onClick (x tile, y tile)
                 ]
     in

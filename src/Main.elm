@@ -10,8 +10,12 @@ import Utils exposing (..)
 
 ---- PROGRAM ----
 init : ( State, Cmd Msg )
-init = ( { board = (fromList initialBoard), highlightedTiles = [],
-                    selectedPiecePosition = ( Nothing, Nothing ) } , Cmd.none )
+init = ( { board = (fromList initialBoard)
+            , selectedPiecePosition = ( Nothing, Nothing )
+            , highlightedTiles = []
+            , attackTiles = []
+            }
+         , Cmd.none )
 
 main : Program () State Msg
 main =

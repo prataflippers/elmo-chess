@@ -12,6 +12,7 @@ foldr = List.foldr
 member = List.member
 reverse = List.reverse
 head = List.head
+isEmpty = List.isEmpty
 -- Removes first occurrence of given element in list
 remove: a -> List a -> List a
 remove a xs = 

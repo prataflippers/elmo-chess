@@ -33,9 +33,11 @@ updateState state position piece =
             let 
                 moves = getMoves state.board position
                 newHighlightedTiles = flatten (map (advancedValidMoves state.board position) moves)
-                newState = { state | highlightedTiles = newHighlightedTiles,
-                                        selectedPiecePosition = (piece, Just position)
-                            }
+                newAttackTiles = attackableTiles state.board concretePiece newHighlightedTiles
+                newState = { state | selectedPiecePosition = (piece, Just position)
+                                   , highlightedTiles = newHighlightedTiles
+                                   , attackTiles = newAttackTiles
+                                   }
             in
             newState
         Nothing -> -- Movement or deselection
@@ -56,6 +58,18 @@ updateState state position piece =
                 (_, _) ->
                     state
 
+
 movePiece : ChessBoard -> Position -> Piece -> Position -> ChessBoard
 movePiece board prevPosition piece newPosition =
     insert newPosition piece (dictRemove prevPosition board)
+
+
+attackableTiles : ChessBoard -> Piece -> List Tile -> List Tile
+attackableTiles board piece highlightedTiles =
+    case highlightedTiles of
+        (h::t) ->
+            if isEmpty (getPositionIfPiecePresent board h)
+            then attackableTiles board piece t
+            else [h] ++ attackableTiles board piece t
+        [] ->
+            []
