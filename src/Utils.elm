@@ -24,6 +24,7 @@ keys = Dict.keys
 get = Dict.get
 insert = Dict.insert
 fromList = Dict.fromList
+dictRemove = Dict.remove
 
 -- Debugging
 -- log = Debug.log

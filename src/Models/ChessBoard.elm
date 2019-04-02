@@ -56,7 +56,10 @@ type alias ChessBoard =
 
 type alias State = Store
 
-type alias Store = { board: ChessBoard, highlightedTiles: List Tile }
+type alias Store = { board: ChessBoard
+                   , highlightedTiles: List Tile
+                   , selectedPiecePosition : (Maybe Piece, Maybe Position)
+                   }
 
 type Move
     = Diagonal

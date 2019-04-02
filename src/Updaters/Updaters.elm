@@ -1,5 +1,6 @@
 module Updaters.Updaters exposing (..)
 
+import Dict exposing ( Dict )
 import Html exposing (Html, div, h1, img, text)
 import Html.Attributes exposing (src)
 import Models.ChessBoard exposing (..)
@@ -27,11 +28,26 @@ update msg state =
                         let 
                             moves = getMoves state.board position
                             newHighlightedTiles = flatten (map (advancedValidMoves state.board position) moves)
-                            newState = { state | highlightedTiles = newHighlightedTiles }
+                            newState = { state | highlightedTiles = newHighlightedTiles,
+                                                 selectedPiecePosition = (piece, Just position)
+                                        }
                         in
                         ( newState , Cmd.none )
-                    Nothing -> 
-                        ( { state | highlightedTiles = [] } , Cmd.none )
+                    Nothing ->
+                        case state.selectedPiecePosition of
+                            (Just concreteSelectedPiece, Just concretePiecePosition) ->
+                                if member position state.highlightedTiles then
+                                    let
+                                        newBoard = movePiece state.board concretePiecePosition concreteSelectedPiece position
+                                    in
+                                        ( { state | highlightedTiles = [], board = newBoard,
+                                            selectedPiecePosition = ( Nothing, Nothing ) } , Cmd.none )
+                                else
+                                    ( { state | highlightedTiles = [], selectedPiecePosition = ( Nothing, Nothing ) } , Cmd.none )
+                            ( Nothing, Nothing ) ->
+                                ( { state | highlightedTiles = [], selectedPiecePosition = ( Nothing, Nothing ) } , Cmd.none )
+                            (_, _) ->
+                                ( state, Cmd.none )
 
 getPiece : ChessBoard -> Position -> List Piece
 getPiece board position =
@@ -60,6 +76,17 @@ getMoves board position =
     in
         flatten (map (\p -> movesForPiece p.pieceType) piece)
 
+
+-- Move Implementation
+
+{-
+    Moves piece to specified destination
+-}
+movePiece : ChessBoard -> Position -> Piece -> Position -> ChessBoard
+movePiece board prevPosition piece newPosition =
+    insert newPosition piece (dictRemove prevPosition board)
+
+-- Move Logic
 
 basicValidMoves : ChessBoard -> Position -> Move -> List Position
 basicValidMoves board position move =
