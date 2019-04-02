@@ -7,11 +7,6 @@ import Models.Data exposing (..)
 import Updaters.MoveLogic exposing (..)
 import Utils exposing (..)
 
--- parsePosition : Position -> String
--- parsePosition position =
---     case position of
---         (x, y) ->
---             String.fromInt(x) ++ String.fromInt(y)
 
 type alias Msg = (Int, Int)
 
@@ -43,18 +38,25 @@ updateState state position piece =
         Nothing -> -- Movement or deselection
             case state.selectedPiecePosition of
                 (Just concreteSelectedPiece, Just concretePiecePosition) ->
-                    if member position state.highlightedTiles then
+                    if member position state.highlightedTiles then --Movement / Attacking
                         let
                             newBoard = movePiece state.board concretePiecePosition concreteSelectedPiece position
+                            newTurn = if state.turn == White then Black else White
                         in
                             { state | highlightedTiles = []
                                     , board = newBoard
                                     , selectedPiecePosition = ( Nothing, Nothing )
+                                    , turn = newTurn
                                     }
-                    else
-                        { state | highlightedTiles = [], selectedPiecePosition = ( Nothing, Nothing ) }
+                    else -- Deselection
+                        { state | highlightedTiles = []
+                                , selectedPiecePosition = ( Nothing, Nothing )
+                                , attackTiles = []
+                                }
                 ( Nothing, Nothing ) ->
-                    { state | highlightedTiles = [], selectedPiecePosition = ( Nothing, Nothing ) }
+                    { state | highlightedTiles = []
+                            , selectedPiecePosition = ( Nothing, Nothing )
+                            , attackTiles = [] }
                 (_, _) ->
                     state
 

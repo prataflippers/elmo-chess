@@ -60,6 +60,7 @@ type alias Store = { board: ChessBoard
                    , selectedPiecePosition : (Maybe Piece, Maybe Position)
                    , highlightedTiles: List Tile
                    , attackTiles: List Tile
+                   , turn: Color
                    }
 
 type Move

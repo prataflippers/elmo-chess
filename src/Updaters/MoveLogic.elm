@@ -103,10 +103,10 @@ oneAway posA posB =
 advancedValidMoves : ChessBoard -> Position -> Move -> List Position
 advancedValidMoves board pos move =
     let
-        basics =
-            basicValidMoves board pos move
+        basicMoves = basicValidMoves board pos move
+        movesWithoutAttackingSameColor = removePositionsWithSameColorAsPiece pos board basicMoves
     in
-        filter isValidPos basics
+        filter isValidPos movesWithoutAttackingSameColor
 
 
 discardRest : ChessBoard -> List Position -> List Position
@@ -119,3 +119,23 @@ discardRest board lst =
                 head :: discardRest board tail
         [] ->
             []
+
+
+removePositionsWithSameColorAsPiece:  Position -> ChessBoard -> List Position -> List Position
+removePositionsWithSameColorAsPiece position board positions = 
+    let 
+        piece = get position board
+    in
+        case piece of
+            Just concretePiece -> removePositionsWithColor concretePiece.color board positions
+            Nothing -> positions
+
+removePositionsWithColor: Color -> ChessBoard -> List Position -> List Position
+removePositionsWithColor color board positions = filter (\a -> 
+        let 
+            piece = get a board
+        in
+            case piece of
+                Just concretePiece -> concretePiece.color /= color
+                Nothing -> True
+    ) positions 

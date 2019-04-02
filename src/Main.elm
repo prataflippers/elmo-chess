@@ -14,6 +14,7 @@ init = ( { board = (fromList initialBoard)
             , selectedPiecePosition = ( Nothing, Nothing )
             , highlightedTiles = []
             , attackTiles = []
+            , turn = White
             }
          , Cmd.none )
 

@@ -4,6 +4,7 @@ import Html exposing (Html, button, div, h1, img, span, text)
 import Html.Attributes exposing (class, id, src, classList)
 import Html.Events exposing (onClick)
 import Models.ChessBoard exposing (..)
+import Models.Data exposing (..)
 import Updaters.Updaters exposing (..)
 import Utils exposing (..)
 
@@ -49,10 +50,15 @@ loopComponent component n =
         []
 
 
+viewTurn : Color -> Html Msg
+viewTurn turn =
+    div [] [ text ( "Racial Segregation: " ++ (colorToString turn) ) ]
+
 view : State -> Html Msg
 view state =
     div []
         [ h1 [] [ text "Elmo Chess" ]
+        , viewTurn state.turn
         , chessBoardView state
         ]
 
