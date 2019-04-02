@@ -62,7 +62,13 @@ boardRows = flatten (reverse (map (\x -> (range (1 + x * 8) ((1 + x * 8) + 7))) 
 
 chessBoardView : State -> Html Msg
 chessBoardView state =
-    div [ id "board" ]
-        (map (viewTile state) (map gridIndexToTile boardRows))
+    addLabelsToBoard (div [ id "board" ] (map (viewTile state) (map gridIndexToTile boardRows)))
 
-
+addLabelsToBoard: Html Msg -> Html Msg
+addLabelsToBoard board = 
+    div [ id "boardContainer" ] [
+    div [ id "boardWithFileLabels" ]
+    [ div [id "fileLabels"] (map (\x -> div [class "fileLabel"] [ text x ]) (loopComponent "a" 8))
+    , board
+    ], div [id "rankLabels"] (map (\x -> div [class "rankLabel"] [ text (String.fromInt x) ]) (range 1 8))
+    ]
