@@ -33,8 +33,7 @@ update msg state =
 updateState : State -> Position -> Maybe Piece -> State
 updateState state position piece =
     case piece of
-        Just concretePiece ->
-            -- Piece selected
+        Just concretePiece -> -- Piece selected
             if member position state.attackTiles then
                 let
                     ( lastSelectedPiece, lastSelectedPosition ) =
@@ -47,7 +46,7 @@ updateState state position piece =
                                 get concreteLastSelectedPosition state.board
                         in
                         case attackingPiece of
-                            Just concreteAttackingPiece ->
+                            Just concreteAttackingPiece -> -- Eat my ass
                                 let
                                     boardWithoutCapturedPiece =
                                         insert position concreteAttackingPiece state.board
@@ -55,67 +54,42 @@ updateState state position piece =
                                     boardWithoutAttackingPiece =
                                         Dict.remove concreteLastSelectedPosition boardWithoutCapturedPiece
                                 in
-                                resetState { state | board = boardWithoutAttackingPiece }
-                            Nothing ->
+                                    switchTurn (resetState { state | board = boardWithoutAttackingPiece })
+                            Nothing -> -- No ass eater
                                 state
-                    Nothing ->
+                    Nothing -> -- No last selected position
                         state
 
             else
                 let
-                    moves =
-                        getMoves state.board position
+                    moves = getMoves state.board position
+                    newHighlightedTiles = flatten (map (advancedValidMoves state.board position) moves)
+                    newAttackTiles = attackableTiles state.board concretePiece newHighlightedTiles
+                    newTurn = if state.turn == White then Black else White
+                 in
+                    switchTurn { state
+                        | selectedPiecePosition = ( piece, Just position )
+                        , highlightedTiles = newHighlightedTiles
+                        , attackTiles = newAttackTiles
+                        , turn = newTurn
+                    }
 
-                    newHighlightedTiles =
-                        flatten (map (advancedValidMoves state.board position) moves)
-
-                    newAttackTiles =
-                        attackableTiles state.board concretePiece newHighlightedTiles
-
-                    newTurn =
-                        if state.turn == White then
-                            Black
-
-                        else
-                            White
-
-                    newState =
-                        { state
-                            | selectedPiecePosition = ( piece, Just position )
-                            , highlightedTiles = newHighlightedTiles
-                            , attackTiles = newAttackTiles
-                            , turn = newTurn
-                        }
-                in
-                newState
-
-        Nothing ->
-            -- Movement or deselection
+        Nothing -> -- Movement or deselection
             case state.selectedPiecePosition of
                 ( Just concreteSelectedPiece, Just concretePiecePosition ) ->
                     if member position state.highlightedTiles then
-                        --Movement / Attacking
                         let
                             newBoard =
                                 movePiece state.board concretePiecePosition concreteSelectedPiece position
 
-                            newTurn =
-                                if state.turn == White then
-                                    Black
-
-                                else
-                                    White
                         in
-                        resetState {  state |
-                            board = newBoard
-                            , turn = newTurn
-                        }
+                        switchTurn (resetState {  state | board = newBoard })
 
                     else
                         -- Deselection
                         resetState state
 
-                ( Nothing, Nothing ) ->
+                ( Nothing, Nothing ) -> -- Nothing was selected
                     resetState state
 
                 ( _, _ ) ->
@@ -148,3 +122,14 @@ resetState state =
         , selectedPiecePosition = ( Nothing, Nothing )
         , attackTiles = []
     }
+
+
+switchTurn : State -> State
+switchTurn state =
+    let
+        currentTurn = state.turn
+        newTurn = if currentTurn == White then Black else White
+    in
+        { state | turn = newTurn }
+
+
