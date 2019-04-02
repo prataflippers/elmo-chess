@@ -100,13 +100,20 @@ oneAway posA posB =
     member (x posA) [ x posB + 1, x posB - 1 ] || member (y posA) [ y posB + 1, y posB - 1 ]
 
 
-advancedValidMoves : ChessBoard -> Position -> Move -> List Position
-advancedValidMoves board pos move =
+advancedValidMoves : Color -> ChessBoard -> Position -> Move -> List Position
+advancedValidMoves turn board pos move =
     let
+        piece = get pos board
         basicMoves = basicValidMoves board pos move
         movesWithoutAttackingSameColor = removePositionsWithSameColorAsPiece pos board basicMoves
     in
-        filter isValidPos movesWithoutAttackingSameColor
+        case piece of
+            Just concretePiece ->
+                if concretePiece.color == turn then
+                    filter isValidPos movesWithoutAttackingSameColor
+                else
+                    []
+            Nothing -> []
 
 
 discardRest : ChessBoard -> List Position -> List Position

@@ -63,8 +63,8 @@ updateState state position piece =
             else
                 let
                     moves = getMoves state.board position
-                    newHighlightedTiles = flatten (map (advancedValidMoves state.board position) moves)
-                    newAttackTiles = attackableTiles state.board concretePiece newHighlightedTiles
+                    newHighlightedTiles = flatten (map (advancedValidMoves state.turn state.board position) moves)
+                    newAttackTiles = attackableTiles state.turn state.board concretePiece newHighlightedTiles
                     newTurn = if state.turn == White then Black else White
                  in
                     switchTurn { state
@@ -101,17 +101,21 @@ movePiece board prevPosition piece newPosition =
     insert newPosition piece (dictRemove prevPosition board)
 
 
-attackableTiles : ChessBoard -> Piece -> List Tile -> List Tile
-attackableTiles board piece highlightedTiles =
-    case highlightedTiles of
-        h :: t ->
-            if isEmpty (getPositionIfPiecePresent board h) then
-                attackableTiles board piece t
-
-            else
-                [ h ] ++ attackableTiles board piece t
-
-        [] ->
+attackableTiles : Color -> ChessBoard -> Piece -> List Tile -> List Tile
+attackableTiles turnColor board piece highlightedTiles =
+    let
+        pieceColor = piece.color
+    in
+        if pieceColor == turnColor
+        then
+            case highlightedTiles of
+                h :: t ->
+                    if isEmpty (getPositionIfPiecePresent board h) then
+                        attackableTiles turnColor board piece t
+                    else
+                        [ h ] ++ attackableTiles turnColor board piece t
+                [] -> []
+        else
             []
 
 
