@@ -2,8 +2,8 @@ module Main exposing (..)
 
 import Browser
 import Models.ChessBoard exposing (..)
-import Updaters.Main exposing (..)
-import Views.Main exposing (..)
+import Updaters.Updaters exposing (..)
+import Views.Views exposing (..)
 import Models.Data exposing (..)
 import Utils exposing (..)
 

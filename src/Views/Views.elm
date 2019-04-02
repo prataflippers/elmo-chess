@@ -1,10 +1,10 @@
-module Views.Main exposing (chessBoardView, loopComponent, view, viewTile)
+module Views.Views exposing (chessBoardView, loopComponent, view, viewTile)
 
 import Html exposing (Html, button, div, h1, img, span, text)
 import Html.Attributes exposing (class, id, src, classList)
 import Html.Events exposing (onClick)
 import Models.ChessBoard exposing (..)
-import Updaters.Main exposing (..)
+import Updaters.Updaters exposing (..)
 import Utils exposing (..)
 
 
