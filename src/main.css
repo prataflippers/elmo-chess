@@ -44,25 +44,22 @@ img {
   justify-content: center;
 }
 
+.tile.highlighted {
+  background: rgb(46, 153, 78) !important;
+}
 
 #board > div:nth-child(16n+1), #board > div:nth-child(16n+3), 
 #board > div:nth-child(16n+5), #board > div:nth-child(16n+7), 
 #board > div:nth-child(16n+10), #board > div:nth-child(16n+12), 
 #board > div:nth-child(16n+14), #board > div:nth-child(16n+16) {
-  // background-image:url("/tiles/black_leather_tile.jpg");
-  // background-size: 100%;
   background: grey;
-  &.highlighted { background: #16835f; }
 }
 
 #board > div:nth-child(16n+2), #board > div:nth-child(16n+4), 
 #board > div:nth-child(16n+6), #board > div:nth-child(16n+8), 
 #board > div:nth-child(16n+9), #board > div:nth-child(16n+11), 
 #board > div:nth-child(16n+13), #board > div:nth-child(16n+15) {
-  // background-image:url("/tiles/light_wood_tile.jpg");
-  // background-size: 100%;
   background: white;
-  &.highlighted { background: #20b181; }
 }
 
 .pieceImage {
