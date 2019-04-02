@@ -24,8 +24,21 @@ body {
   text-align: center;
   color: #293c4b;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
+
+#notification {
+  visibility: hidden;
+  color: white;
+  background: #1ca06d;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  border: #19865d solid 1px;
+}
+
 
 @media (max-width: 500px) {
   body {
@@ -88,7 +101,7 @@ body {
 
 #rankLabels {
   display: flex;
-  flex-direction: vertical;
+  flex-direction: row;
   width: var(--board-side-length);
   margin-left: var(--board-label-width);
 }

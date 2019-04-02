@@ -7,3 +7,8 @@ Elm.Main.init({
 });
 
 registerServiceWorker();
+
+
+function loadDirectlyFromServer() {
+  window.location.reload();
+}
