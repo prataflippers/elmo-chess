@@ -34,9 +34,10 @@ img {
   width: 480px;
   height: 480px;
   border: 20px rgb(68, 71, 73) solid;
+  margin: 40px;
 }
 
-#board > div {
+#board > .tile {
   width: 60px;
   height: 60px;
   display: flex;
@@ -44,22 +45,31 @@ img {
   justify-content: center;
 }
 
-.tile.highlighted {
-  background: rgb(46, 153, 78) !important;
+@media (max-width: 500px) {
+  #board {
+    width: 80vw;
+    height: 80vw;
+    border: 2.5vw rgb(68, 71, 73) solid;
+  }
+
+  #board > .tile {
+    width: 10vw;
+    height: 10vw;
+  }
 }
 
-#board > div:nth-child(16n+1), #board > div:nth-child(16n+3), 
-#board > div:nth-child(16n+5), #board > div:nth-child(16n+7), 
-#board > div:nth-child(16n+10), #board > div:nth-child(16n+12), 
-#board > div:nth-child(16n+14), #board > div:nth-child(16n+16) {
-  background: grey;
-}
-
-#board > div:nth-child(16n+2), #board > div:nth-child(16n+4), 
-#board > div:nth-child(16n+6), #board > div:nth-child(16n+8), 
-#board > div:nth-child(16n+9), #board > div:nth-child(16n+11), 
-#board > div:nth-child(16n+13), #board > div:nth-child(16n+15) {
+#board > .tile:nth-child(16n+1), #board > .tile:nth-child(16n+3), 
+#board > .tile:nth-child(16n+5), #board > .tile:nth-child(16n+7), 
+#board > .tile:nth-child(16n+10), #board > .tile:nth-child(16n+12), 
+#board > .tile:nth-child(16n+14), #board > .tile:nth-child(16n+16) {
   background: white;
+}
+
+#board > .tile:nth-child(16n+2), #board > .tile:nth-child(16n+4), 
+#board > .tile:nth-child(16n+6), #board > .tile:nth-child(16n+8), 
+#board > .tile:nth-child(16n+9), #board > .tile:nth-child(16n+11), 
+#board > .tile:nth-child(16n+13), #board > .tile:nth-child(16n+15) {
+  background: grey;
 }
 
 .pieceImage {
@@ -69,4 +79,20 @@ img {
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;
+}
+
+
+ /* Ugly CSS incoming. Please change in the future */
+#board > .tile:nth-child(16n+1).highlighted, #board > .tile:nth-child(16n+3).highlighted, 
+#board > .tile:nth-child(16n+5).highlighted, #board > .tile:nth-child(16n+7).highlighted, 
+#board > .tile:nth-child(16n+10).highlighted, #board > .tile:nth-child(16n+12).highlighted, 
+#board > .tile:nth-child(16n+14).highlighted, #board > .tile:nth-child(16n+16).highlighted {
+  background: #1ca06d;
+}
+
+#board > .tile:nth-child(16n+2).highlighted, #board > .tile:nth-child(16n+4).highlighted, 
+#board > .tile:nth-child(16n+6).highlighted, #board > .tile:nth-child(16n+8).highlighted, 
+#board > .tile:nth-child(16n+9).highlighted, #board > .tile:nth-child(16n+11).highlighted, 
+#board > .tile:nth-child(16n+13).highlighted, #board > .tile:nth-child(16n+15).highlighted {
+  background: #19865d;
 }

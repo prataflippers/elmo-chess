@@ -50,8 +50,7 @@ loopComponent component n =
 view : State -> Html Msg
 view state =
     div []
-        [ img [ src "/elmo_chess.png" ] []
-        , h1 [] [ text "Elmo is dead BIATCH!" ]
+        [ h1 [] [ text "Elmo Chess" ]
         , chessBoardView state
         ]
 
