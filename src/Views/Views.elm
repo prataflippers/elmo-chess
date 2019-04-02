@@ -70,7 +70,7 @@ addLabelsToBoard: Html Msg -> Html Msg
 addLabelsToBoard board = 
     div [ id "boardContainer" ] [
     div [ id "boardWithFileLabels" ]
-    [ div [id "fileLabels"] (map (\x -> div [class "fileLabel"] [ text x ]) (loopComponent "a" 8))
+    [ div [id "fileLabels"] (map (\x -> div [class "fileLabel"] [ text x ]) (reverse ["a", "b", "c", "d", "e", "f", "g", "h"]))
     , board
     ], div [id "rankLabels"] (map (\x -> div [class "rankLabel"] [ text (String.fromInt x) ]) (range 1 8))
     ]
