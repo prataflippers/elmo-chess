@@ -79,7 +79,7 @@ basicValidMoves board position move =
                                     diagonal = flatten ( map ( getPositionIfPiecePresent board )
                                                         [ ( x position + 1, y position + 1 ) , ( x position + 1, y position - 1 ) ] )
                                 in
-                                    discardRest board forward ++ diagonal
+                                    discardRest board (filterNonEmptyPositions board forward) ++ diagonal
                             Black ->
                                 let
                                     moved = x position /= 6
@@ -88,7 +88,7 @@ basicValidMoves board position move =
                                     diagonal = flatten ( map ( getPositionIfPiecePresent board )
                                                        [ ( x position - 1, y position + 1 ) , ( x position - 1, y position - 1 ) ] )
                                 in
-                                    discardRest board forward ++ diagonal
+                                    discardRest board (filterNonEmptyPositions board forward) ++ diagonal
                     Single moveType ->
                         filter (oneAway position) (basicValidMoves board position moveType)
             Nothing ->
@@ -120,6 +120,16 @@ discardRest board lst =
         [] ->
             []
 
+filterNonEmptyPositions: ChessBoard -> List Position -> List Position
+filterNonEmptyPositions board positions = 
+    filter (\position -> 
+        let
+            piece = get position board
+        in
+            case piece of
+                Just concretePiece -> False
+                Nothing -> True
+    ) positions
 
 removePositionsWithSameColorAsPiece:  Position -> ChessBoard -> List Position -> List Position
 removePositionsWithSameColorAsPiece position board positions = 
