@@ -29,6 +29,15 @@ body {
   align-items: center;
 }
 
+img {
+  max-width: 80vw;
+}
+
+#pageContainer {
+  display: flex;
+  flex-direction: column;
+}
+
 #notification {
   visibility: hidden;
   color: white;

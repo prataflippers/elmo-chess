@@ -29,9 +29,11 @@ updateState state position piece =
                 moves = getMoves state.board position
                 newHighlightedTiles = flatten (map (advancedValidMoves state.board position) moves)
                 newAttackTiles = attackableTiles state.board concretePiece newHighlightedTiles
+                newTurn = if state.turn == White then Black else White
                 newState = { state | selectedPiecePosition = (piece, Just position)
                                    , highlightedTiles = newHighlightedTiles
                                    , attackTiles = newAttackTiles
+                                   , turn = newTurn
                                    }
             in
             newState

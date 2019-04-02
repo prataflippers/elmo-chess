@@ -79,7 +79,7 @@ basicValidMoves board position move =
                                     diagonal = flatten ( map ( getPositionIfPiecePresent board )
                                                         [ ( x position + 1, y position + 1 ) , ( x position + 1, y position - 1 ) ] )
                                 in
-                                    forward ++ diagonal
+                                    discardRest board forward ++ diagonal
                             Black ->
                                 let
                                     moved = x position /= 6
@@ -88,7 +88,7 @@ basicValidMoves board position move =
                                     diagonal = flatten ( map ( getPositionIfPiecePresent board )
                                                        [ ( x position - 1, y position + 1 ) , ( x position - 1, y position - 1 ) ] )
                                 in
-                                    forward ++ diagonal
+                                    discardRest board forward ++ diagonal
                     Single moveType ->
                         filter (oneAway position) (basicValidMoves board position moveType)
             Nothing ->

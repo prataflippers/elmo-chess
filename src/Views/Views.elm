@@ -52,15 +52,22 @@ loopComponent component n =
 
 viewTurn : Color -> Html Msg
 viewTurn turn =
-    div [] [ text ( "Racial Segregation: " ++ (colorToString turn) ) ]
+    let
+        turnImg = if turn == White then "white.png" else "black.jpg"
+    in
+        div [] [ 
+            div [] [ text ( "Racial Segregation: " ++ (colorToString turn) ) ]
+        , span [] [ img [ class "", src turnImg ] [] ]
+            ]
 
 view : State -> Html Msg
 view state =
     div []
         [ h1 [] [ text "Elmo Chess" ]
-        , viewTurn state.turn
-        , chessBoardView state
-        ]
+        , div [ id "pageContainer"] [
+            chessBoardView state
+            , viewTurn state.turn
+        ] ]
 
 -- This creates a list like [57,58,59,60,61,62,63,64,49,50,51,52,53,54,55,56,41,42,43,44...]
 -- This is to correct the orientation of the board where White is at the bottom and the position
