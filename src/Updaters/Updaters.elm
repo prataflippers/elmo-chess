@@ -5,6 +5,11 @@ import Html.Attributes exposing (src)
 import Models.ChessBoard exposing (..)
 import Utils exposing (..)
 
+-- parsePosition : Position -> String
+-- parsePosition position =
+--     case position of
+--         (x, y) ->
+--             String.fromInt(x) ++ String.fromInt(y)
 
 type alias Msg = (Int, Int)
 
@@ -37,6 +42,7 @@ getMoves board position =
                 movesForPiece concretePiece.pieceType
             Nothing -> []
 
+
 basicValidMoves : ChessBoard -> Position -> Move -> List Position
 basicValidMoves board position move =
     case move of
@@ -47,7 +53,7 @@ basicValidMoves board position move =
                 up =  range (y position + 1) 7
                 down = reverse (range 0 (y position - 1))
             in
-            flatten (map (\x -> x) [ zip left up, zip left down, zip right up, zip right down ])
+            flatten (map (\x -> discardRest board x) [ zip left up, zip left down, zip right up, zip right down ])
         RetardJump ->
             let
                 addTwoToX = [ ( x position + 2, y position + 1 ), ( x position + 2, y position - 1 )
@@ -56,11 +62,18 @@ basicValidMoves board position move =
                             , ( x position - 1, y position + 2 ), ( x position - 1, y position - 2 ) ]
             in
             addTwoToX ++ addTwoToY
-
         File ->
-            map (\ offset -> ( x position + offset, y position )) (remove 0 (range -7 7))
+            let
+                down = discardRest board (map (\offset -> ( x position + offset, y position)) (reverse (range -7 -1)))
+                up = discardRest board (map (\offset -> ( x position + offset, y position)) (range 1 7))
+            in
+                down ++ up
         Rank ->
-            map (\ offset -> ( x position, y position + offset )) (remove 0 (range -7 7))
+            let
+                left = discardRest board (map (\offset -> ( x position, y position + offset)) (reverse (range -7 -1)))
+                right = discardRest board (map (\offset -> ( x position, y position + offset)) (range 1 7))
+            in
+                left ++ right
         Single moveType ->
             filter (oneAway position) (basicValidMoves board position moveType)
 
@@ -84,10 +97,8 @@ discardRest board lst =
     case lst of
         head :: tail ->
             if member head (keys board) then
-                head :: discardRest board tail
-
+                [head]
             else
-                [ head ]
-
+                head :: discardRest board tail
         [] ->
             []
