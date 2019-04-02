@@ -166,3 +166,19 @@ body {
 #board > .tile:nth-child(16n+13).highlighted, #board > .tile:nth-child(16n+15).highlighted {
   background: #19865d;
 }
+
+
+#board > .tile:nth-child(16n+1).attackable, #board > .tile:nth-child(16n+3).attackable, 
+#board > .tile:nth-child(16n+5).attackable, #board > .tile:nth-child(16n+7).attackable, 
+#board > .tile:nth-child(16n+10).attackable, #board > .tile:nth-child(16n+12).attackable, 
+#board > .tile:nth-child(16n+14).attackable, #board > .tile:nth-child(16n+16).attackable {
+  background: #dd4545;
+}
+
+#board > .tile:nth-child(16n+2).attackable, #board > .tile:nth-child(16n+4).attackable, 
+#board > .tile:nth-child(16n+6).attackable, #board > .tile:nth-child(16n+8).attackable, 
+#board > .tile:nth-child(16n+9).attackable, #board > .tile:nth-child(16n+11).attackable, 
+#board > .tile:nth-child(16n+13).attackable, #board > .tile:nth-child(16n+15).attackable {
+  background: #a32626;
+}
+
