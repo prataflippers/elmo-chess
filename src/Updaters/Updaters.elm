@@ -33,16 +33,32 @@ update msg state =
                     Nothing -> 
                         ( { state | highlightedTiles = [] } , Cmd.none )
 
+getPiece : ChessBoard -> Position -> List Piece
+getPiece board position =
+    let piece = get position board
+    in
+        case piece of
+            Just concretePiece ->
+                [ concretePiece ]
+            Nothing ->
+                []
 
-getMoves : ChessBoard -> Position -> List Move
-getMoves board position = 
+getPositionIfPiecePresent : ChessBoard -> Position -> List Position
+getPositionIfPiecePresent board position =
     let piece = get position board
     in
         case piece of 
             Just concretePiece ->
-                movesForPiece concretePiece.pieceType
+                [ position ]
             Nothing ->
                 []
+
+
+getMoves : ChessBoard -> Position -> List Move
+getMoves board position =
+    let piece = getPiece board position
+    in
+        flatten (map (\p -> movesForPiece p.pieceType) piece)
 
 
 basicValidMoves : ChessBoard -> Position -> Move -> List Position
@@ -88,15 +104,19 @@ basicValidMoves board position move =
                                     moved = x position == 2
                                     forward = if moved then [ ( x position + 1, y position ) ] else
                                                             [ ( x position + 1, y position) , (x position + 2, y position )]
+                                    diagonal = flatten ( map ( getPositionIfPiecePresent board )
+                                                        [ ( x position + 1, y position + 1 ) , ( x position + 1, y position - 1 ) ] )
                                 in
-                                    forward
+                                    forward ++ diagonal
                             Black ->
                                 let
                                     moved = x position == 5
                                     forward = if moved then [ ( x position - 1, y position ) ] else
                                                             [ ( x position - 1, y position) , (x position - 2, y position )]
+                                    diagonal = flatten ( map ( getPositionIfPiecePresent board )
+                                                       [ ( x position - 1, y position + 1 ) , ( x position - 1, y position - 1 ) ] )
                                 in
-                                    forward
+                                    forward ++ diagonal
                     Single moveType ->
                         filter (oneAway position) (basicValidMoves board position moveType)
             Nothing ->
