@@ -35,7 +35,17 @@ img {
 
 #pageContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 80vw;
+}
+
+@media (max-width: 500px) {
+  #pageContainer {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 #notification {
@@ -46,6 +56,10 @@ img {
   margin: 10px;
   border-radius: 5px;
   border: #19865d solid 1px;
+}
+
+#refreshCacheButton:hover {
+  cursor: pointer;
 }
 
 

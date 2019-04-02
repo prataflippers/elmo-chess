@@ -9,6 +9,8 @@ Elm.Main.init({
 registerServiceWorker();
 
 
-function loadDirectlyFromServer() {
-  window.location.reload();
+window.onload = function () {
+  document.getElementById("refreshCacheButton").onclick = function() {
+    window.location.reload();
+  }
 }
