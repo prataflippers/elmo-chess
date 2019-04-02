@@ -34,6 +34,7 @@ img {
   width: 480px;
   height: 480px;
   border: 20px rgb(68, 71, 73) solid;
+  margin: 40px;
 }
 
 #board > .tile {
@@ -44,6 +45,18 @@ img {
   justify-content: center;
 }
 
+@media (max-width: 500px) {
+  #board {
+    width: 80vw;
+    height: 80vw;
+    border: 2.5vw rgb(68, 71, 73) solid;
+  }
+
+  #board > .tile {
+    width: 10vw;
+    height: 10vw;
+  }
+}
 
 #board > .tile:nth-child(16n+1), #board > .tile:nth-child(16n+3), 
 #board > .tile:nth-child(16n+5), #board > .tile:nth-child(16n+7), 
