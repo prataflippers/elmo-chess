@@ -9,6 +9,15 @@
   height: inherit;
 }
 
+:root {
+  --board-side-length: 480px;
+  --board-side-length-mobile: 80vw;
+  --tile-side-length: 60px;
+  --tile-side-length-mobile: 10vw; 
+  --board-label-width: 40px;
+  --board-label-width-mobile: 20px;
+}
+
 body {
   font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
@@ -18,28 +27,23 @@ body {
   justify-content: center;
 }
 
-h1 {
-  font-size: 30px;
+@media (max-width: 500px) {
+  body {
+    font-size: 12px;
+  }
 }
-
-img {
-  margin: 20px 0;
-  max-width: 200px;
-}
-
 
 #board {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  width: 480px;
-  height: 480px;
-  border: 20px rgb(68, 71, 73) solid;
-  margin: 40px;
+  width: var(--board-side-length);
+  height: var(--board-side-length);
+  border: 2px #293c4b solid;
 }
 
 #board > .tile {
-  width: 60px;
-  height: 60px;
+  width: var(--tile-side-length);
+  height: var(--tile-side-length);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,14 +51,14 @@ img {
 
 @media (max-width: 500px) {
   #board {
-    width: 80vw;
-    height: 80vw;
-    border: 2.5vw rgb(68, 71, 73) solid;
+    width: var(--board-side-length-mobile);
+    height: var(--board-side-length-mobile);
+    border: 1px #293c4b solid;
   }
 
   #board > .tile {
-    width: 10vw;
-    height: 10vw;
+    width: var(--tile-side-length-mobile);
+    height: var(--tile-side-length-mobile);
   }
 }
 
@@ -81,6 +85,59 @@ img {
   user-select: none;
 }
 
+
+#rankLabels {
+  display: flex;
+  flex-direction: vertical;
+  width: var(--board-side-length);
+  margin-left: var(--board-label-width);
+}
+
+.rankLabel {
+  width: var(--tile-side-length);
+  height: var(--board-label-width);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#boardWithFileLabels {
+  display: flex;
+  flex-direction: horizontal;
+}
+
+#fileLabels {
+  height: var(--board-side-length);
+}
+
+.fileLabel {
+  height: var(--tile-side-length);
+  width: var(--board-label-width);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 500px) {
+  #rankLabels {
+    width: var(--board-side-length-mobile);
+    margin-left: var(--board-label-width-mobile);
+  }
+
+  .rankLabel {
+    width: var(--tile-side-length-mobile);
+    height: var(--board-label-width-mobile);
+  }
+
+  #fileLabels {
+    height: var(--board-side-length-mobile);
+  }
+
+  .fileLabel {
+    height: var(--tile-side-length-mobile);
+    width: var(--board-label-width-mobile);
+  }
+}
 
  /* Ugly CSS incoming. Please change in the future */
 #board > .tile:nth-child(16n+1).highlighted, #board > .tile:nth-child(16n+3).highlighted, 
