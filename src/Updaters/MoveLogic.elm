@@ -49,7 +49,7 @@ basicValidMoves board position move =
                             down = reverse (range 0 (y position - 1))
                         in
                         flatten (map (\x -> discardRest board x) [ zip left up, zip left down, zip right up, zip right down ])
-                    RetardJump ->
+                    KnightJump ->
                         let
                             addTwoToX = [ ( x position + 2, y position + 1 ), ( x position + 2, y position - 1 )
                                         , ( x position - 2, y position + 1 ), ( x position - 2, y position - 1 ) ]
@@ -69,7 +69,7 @@ basicValidMoves board position move =
                             right = discardRest board (map (\offset -> ( x position, y position + offset)) (range 1 7))
                         in
                             left ++ right
-                    RetardWalk ->
+                    Walk ->
                         case concretePiece.color of
                             White ->
                                 let

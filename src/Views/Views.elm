@@ -56,8 +56,7 @@ viewTurn turn =
         turnImg = if turn == White then "white.png" else "black.jpg"
     in
         div [] [ 
-            div [] [ text ( "Racial Segregation: " ++ (colorToString turn) ) ]
-        , span [] [ img [ class "", src turnImg ] [] ]
+            div [] [ text ( "Who's Turn: " ++  (colorToString turn)) ]
             ]
 
 view : State -> Html Msg

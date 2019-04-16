@@ -67,8 +67,8 @@ type Move
     = Diagonal
     | File
     | Rank
-    | RetardJump
-    | RetardWalk
+    | KnightJump
+    | Walk
     | Single Move
 
 
@@ -76,7 +76,7 @@ movesForPiece: PieceType -> List Move
 movesForPiece piece = case piece of
     Bishop -> [ Diagonal ]
     King -> [ Single Diagonal, Single File, Single Rank ]
-    Pawn -> [ RetardWalk ]
-    Knight -> [ RetardJump ]
+    Pawn -> [ Walk ]
+    Knight -> [ KnightJump ]
     Rook -> [ File, Rank ]
     Queen -> [ File, Rank, Diagonal ]
