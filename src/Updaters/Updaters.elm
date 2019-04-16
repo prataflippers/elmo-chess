@@ -62,7 +62,7 @@ updateState state position piece =
 
             else
                 let
-                    moves = getMoves state.board position
+                    moves =  getMoves state.board position
                     newHighlightedTiles = flatten (map (advancedValidMoves state.turn state.board position) moves)
                     newAttackTiles = attackableTiles state.turn state.board concretePiece newHighlightedTiles
                     newTurn = if state.turn == White then Black else White
